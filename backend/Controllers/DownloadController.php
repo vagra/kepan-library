@@ -20,6 +20,7 @@ use Filegator\Services\Session\SessionStorageInterface as Session;
 use Filegator\Services\Storage\Filesystem;
 use Filegator\Services\Tmpfs\TmpfsInterface;
 use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\Mime\MimeTypes;
 
 class DownloadController
 {
@@ -65,13 +66,18 @@ class DownloadController
             // @codeCoverageIgnoreEnd
         });
 
-        $contentDisposition = HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_ATTACHMENT, $file['filename'], 'file');
-        $contentType = 'application/octet-stream';
+        $extension = pathinfo($file['filename'], PATHINFO_EXTENSION);
+        $mimes = (new MimeTypes())->getMimeTypes($extension);
+        $contentType = !empty($mimes) ? $mimes[0] : 'application/octet-stream';
 
-        if (pathinfo($file['filename'], PATHINFO_EXTENSION) == 'pdf') {
-            $contentDisposition = HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_INLINE, $file['filename'], 'file');
-            $contentType = 'application/pdf';
+        $disposition = HeaderUtils::DISPOSITION_ATTACHMENT;
+
+        $download_inline = (array)$this->config->get('download_inline', ['pdf']);
+        if (in_array($extension, $download_inline) || in_array('*', $download_inline)) {
+            $disposition = HeaderUtils::DISPOSITION_INLINE;
         }
+
+        $contentDisposition = HeaderUtils::makeDisposition($disposition, $file['filename'], 'file');
 
         $streamedResponse->headers->set(
             'Content-Disposition',

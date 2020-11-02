@@ -1,6 +1,40 @@
-# Chanelog
+# Changelog
 
 ## Upcoming...
+
+## 7.4.6 - 2020-11-02
+
+* New feature - upload folder with drag&drop, fixes #25 (Thanks @ahaenggli)
+* New LDAP auth adapter (Thanks @ahaenggli)
+* Fixes #17 (Thanks @ahaenggli)
+* Hungarian translation added (Thanks zsolti19850610)
+
+## 7.4.5 - 2020-10-12
+
+* New config: 'download_inline' #141 (download configured extensions inline in the browser)
+* Korean language added #119 (Thanks Jinhee-Kim)
+* Galician language added #126 (Thanks vinpoloaire)
+* Russian language added #128 (Thanks BagriyDmitriy)
+
+## 7.4.4 - 2020-07-28 [Security]
+
+* This version patches a security vulnerability #116 please upgrade
+
+## 7.4.3 - 2020-07-18
+
+* disabling axios response auto-transformation when editing content, fixes #110
+* config params: .json and .md extensions added as 'editable' by default
+* config params: timezone support added, mostly for accurate logging, defaults to UTC
+* fixes #102
+
+## 7.4.2 - 2020-07-18
+
+* inclusive terminology: BC! please replace ip_whitelist/ip_blacklist to ip_allowlist/ip_denylist in your configuration.php
+* fixes #113 #108
+* add mime-types to download headers
+* support for vector images (svg)
+* fonts update
+* catch/fix NavigationDuplicated errors
 
 ## 7.4.1 - 2020-05-17
 
